@@ -370,7 +370,7 @@ def get_all_fastq_files(data_dir):
 
     except OSError:
         msg = "Invalid directory " + fastq_files_path
-        print msg
+        print(msg)
 
     return fastq_file_list
 

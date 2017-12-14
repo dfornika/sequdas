@@ -1,18 +1,27 @@
 #!/usr/bin/env python
-import ConfigParser
+
+import datetime
 import os
 import re
+import shutil
+import subprocess
+import sys
+import tempfile
 import time
 from xml.etree import ElementTree
-import subprocess
-from Lib.status_log import *
-import tempfile
-import MySQLdb
-from Lib.message import *
-import datetime
-import shutil
-import sys
 
+try:
+    import configparser
+except ImportError:
+    import ConfigParser
+
+try:
+    import pymysql
+except ImportError:
+    import MySQLdb
+
+import sequdas_client.status_log
+import sequdas_client.message
 
 def sequdas_config():
     try:
@@ -20,12 +29,12 @@ def sequdas_config():
         confdict = {section: dict(config.items(section)) for section in config.sections()}
         return confdict
     except Exception as e :
-        print(str(e),' Could not read configuration file')
+        print(str(e) + " Could not read configuration file")
 
 def read_config():
-    config = ConfigParser.RawConfigParser()
+    config = configparser.RawConfigParser()
     pathname = os.path.dirname(os.path.abspath(sys.argv[0]))
-    configFilePath = pathname+"/"+"Config/config.ini"
+    configFilePath = pathname + "/" + "config/config.ini"
     try:
         config.read(configFilePath)
         return config
@@ -112,7 +121,7 @@ def get_backup_list(directory, exclude_dirs):
                         if re.search("Error",child.text,re.IGNORECASE):
                             num=0
                             folder_error_run.append(subdir)
-                            #print "There was some errors occured in the run "+subdir+". It has been excluded from backup"
+                            #print("There was some errors occured in the run "+subdir+". It has been excluded from backup")
         else:
             other_run.append(subdir)
         if (num==3):
@@ -145,7 +154,7 @@ def getlastID():
     cur.execute("SELECT bccdc_id FROM `status_table` order by id desc LIMIT 1")
     data = cur.fetchone()
     cur.close()
-    #print data[0]
+    #print(data[0])
     if(data):
         return data[0]
     else:
@@ -191,7 +200,7 @@ def md5_compare(data_server,run_handle,next_ID,data_dir_server,logfile_dir):
         remotemd5 = subprocess.call(["ssh", data_server, "md5deep","-r","-s",data_dir_server],stdout=f_remote);
         local_md5_compare=subprocess.call(["md5deep","-r","-X",location_remotemd5,run_handle],stdout=f_compare);
     else:
-        print "please check your remote path when comparing md5"
+        print("please check your remote path when comparing md5")
     if os.path.exists(location_compare_result) and os.path.getsize(location_compare_result) > 0:
         file_status="md5_failed"
         return file_status
@@ -239,7 +248,7 @@ def del_old_file(filename):
         m = re.match("8", line.split("\t")[5])
         if m:
             file_archiving_time=line.split("\t")[4]
-            #print file_archiving_time
+            #print(file_archiving_time)
             pattern = re.compile('[0-9]{4}-[0-9]{2}-[0-9]{2}#[0-9:]{8}')
             match=pattern.match(file_archiving_time)
             if match:                
@@ -253,9 +262,9 @@ def del_old_file(filename):
                     elif os.path.isfile(line.split("\t")[2]):
                         os.remove(line.split("\t")[2])
                     else:
-                        print "please check your file path"+line.split("\t")[2]
+                        print("please check your file path"+line.split("\t")[2])
             else:
-                print "Please check the time format"
+                print("Please check the time format")
     i.close()
     logfile_dir_without_slash=del_end_slash(logfile_dir)
     if(len(my_list)>0):

@@ -1,20 +1,27 @@
 #!/usr/bin/env python
+
+import datetime
+import ntplib
 import os
+import pipes
+import pytz
+import re
 import sys
 import subprocess
-import pipes
-import datetime
 import time
-import pytz
-import ntplib
-from Lib.core import *
-import MySQLdb
-import re
+
+import sequdas_client.core
+
+try:
+    import pymysql
+except ImportError:
+    import MySQLdb
+
 
 def check_run_folders(folderlist):
     for backupDir in folderlist:
         if not os.path.exists(backupDir):
-            print("\n\nERROR:  Plesae check run directory \n\n################################ \n\n"+backupDir+" is not available!\n\n################################")
+            print("\n\nERROR:  Plesae check run directory \n\n################################ \n\n" + backupDir + " is not available!\n\n################################")
             sys.exit()
 
 def check_path_with_slash(folder):
@@ -33,14 +40,14 @@ def check_server_folder(ssh_host,filepath_target):
     try:
         ssh = subprocess.check_call(["ssh",ssh_host, COMMAND],shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     except subprocess.CalledProcessError:
-        print "cannot connect to server:"+ssh_host+",please check the internet"
+        print("cannot connect to server:"+ssh_host+",please check the internet")
         sys.exit()
     try:
         resp_check = subprocess.call(['ssh', ssh_host, 'test -e ' + pipes.quote(filepath_target)],stderr=subprocess.PIPE)
-        if resp_check <> 0:
+        if resp_check != 0:
             resp_create = subprocess.call(['ssh', ssh_host, 'mkdir ' + pipes.quote(filepath_target)])
     except:
-            print "cannot check directory, please check the internet"
+            print("cannot check directory, please check the internet")
 
 def utc_to_local(utc_dt):
     s_config=sequdas_config()
@@ -59,7 +66,7 @@ def get_time_from_NTPClient():
         formatted_date_with_corrections = str(local_dt).split(".")[0]
         return formatted_date_with_corrections
     except:
-        print "Error At Time Sync: Let Me Check!"
+        print("Error At Time Sync: Let Me Check!")
         return "Error At Time Sync: Let Me Check!" 
 
 def judge_file_time1(stringtime):

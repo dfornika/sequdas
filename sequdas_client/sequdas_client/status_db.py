@@ -1,5 +1,9 @@
-import MySQLdb
+try:
+        import pymysql
+except ImportError:
+        import MySQLdb
 from Lib.core import *
+
 s_config=sequdas_config()
 mysql_host=s_config['mysql_account']['mysql_host']
 mysql_user=s_config['mysql_account']['mysql_user']
@@ -15,9 +19,9 @@ def doInsert(bccdc_id_value,source_value,fullpath_value,folder_value,status_valu
 	myConnection.close()
 
 def doUpdate(bccdc_id_value,status_value):
-		myConnection = MySQLdb.connect( host=mysql_host, user=mysql_user, passwd=mysql_passwd, db=mysql_db)
-		timestamp = time.strftime("%Y-%m-%d#%H:%M:%S")
-		cur = myConnection.cursor()
-		cur.execute(("UPDATE status_table SET status=%s,end_time=%s WHERE bccdc_id=%s"),(status_value,timestamp,bccdc_id_value))
-		myConnection.commit()
-		myConnection.close()
+       	myConnection = MySQLdb.connect( host=mysql_host, user=mysql_user, passwd=mysql_passwd, db=mysql_db)
+       	timestamp = time.strftime("%Y-%m-%d#%H:%M:%S")
+       	cur = myConnection.cursor()
+       	cur.execute(("UPDATE status_table SET status=%s,end_time=%s WHERE bccdc_id=%s"),(status_value,timestamp,bccdc_id_value))
+       	myConnection.commit()
+       	myConnection.close()
