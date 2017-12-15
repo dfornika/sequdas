@@ -1,0 +1,9 @@
+pymysql; python_version > '3.0'
+MySQL-python; python_version < '3.0'
+pytz
+ntplib
+spur
+fabric3; python_version > '3.0'
+fabric; python_version < '3.0'
+watchdog
+zerorpc

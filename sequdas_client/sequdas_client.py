@@ -23,14 +23,20 @@
 # Fax: 604-707-2603                                                  #
 ######################################################################
 
+import argparse
 import re
+import time
+import logging
 import sequdas_client.core
 import sequdas_client.check
-# from fabric.api import env, run, hosts
+from fabric.api import env, run, hosts
 import zerorpc
+import sqlite3
 import spur
+from watchdog.observers import Observer
+from watchdog.events import LoggingEventHandler
 
-def main():
+def _main():
     config = sequdas_client.core.sequdas_config()
     # Local setting
     run_dir_lists = config['sequencer']['run_dirs']
@@ -90,7 +96,7 @@ def main():
                 send_email(gmail_user, gmail_pass, email_list, "Run failed", run_with_error_name, "")
             add_status_error(logfile, machine, run_with_error_name,run_with_error)
         # Handle with uncompleted run
-        run_uncompleted=[item for item in uncompleted_dir_log if item not in uncompleted_dirs]
+        run_uncompleted = [item for item in uncompleted_dir_log if item not in uncompleted_dirs]
         for run_uncompleted_path in run_uncompleted:
             print(run_uncompleted_path)
             delete_old_uncompleted_record(logfile,run_uncompleted_path)
@@ -150,10 +156,10 @@ def main():
                 status_result = md5_compare(data_server, run_handle, current_ID,data_dir_server, logfile_dir)
                 if status_result == "Status_OK":
                     location_remotemd5 = logfile_dir + "remote.md5.tmp"
-                    final_md5 = logfile_dir+current_ID + "_md5"
-                    #print("The run "+run_name+" md5 check is good")
+                    final_md5 = logfile_dir + current_ID + "_md5"
+                    #print("The run " + run_name + " md5 check is good")
                     subprocess.call(["mv", location_remotemd5, final_md5], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    subprocess.call(["rm", logfile_dir+"compare_result.tmp"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    subprocess.call(["rm", logfile_dir + "compare_result.tmp"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                     #status 3: 	Data has been transferred successfully. Waiting for QC report 1
                     status_id = 3
                     status_id_str = str(status_id)
@@ -217,11 +223,42 @@ def main():
 #     finally:
 #         return is_done
 
-# def _main():
-#     env.host_string = 'sabin.bcgsc.ca'
-#     env.use_ssh_config = True
-#     remote_test()
+def fabric_config(sequdas_config):
+    env.host_string = sequdas_config['server']['server_ssh_host']
+    env.use_ssh_config = True
+    return env
 
+def logging_config():
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s - %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
+
+def main():
+    configFilePath = None
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--config', dest='configFilePath', help='config file path.')
+    args = parser.parse_args()
+    conn = sqlite3.connect('db/sequdas.db')
+    # SeqUDAS config
+    config = sequdas_client.core.sequdas_config(args.configFilePath)
+    # Fabric config
+    env = fabric_config(config)
+    # Loging config
+    logging_config()
+
+    # Watchdog
+    event_handler = LoggingEventHandler()
+    observer = Observer()
+    observer.schedule(event_handler, config['sequencer']['run_dirs'], recursive=True)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+    # remote_test()
+    
 if __name__ == "__main__":
     main()
 

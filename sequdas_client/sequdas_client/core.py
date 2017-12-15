@@ -23,18 +23,19 @@ except ImportError:
 import sequdas_client.status_log
 import sequdas_client.message
 
-def sequdas_config():
+def sequdas_config(configFilePath):
     try:
-        config=read_config()
+        config = read_config(configFilePath)
         confdict = {section: dict(config.items(section)) for section in config.sections()}
         return confdict
     except Exception as e :
         print(str(e) + " Could not read configuration file")
 
-def read_config():
+def read_config(configFilePath):
     config = configparser.RawConfigParser()
-    pathname = os.path.dirname(os.path.abspath(sys.argv[0]))
-    configFilePath = pathname + "/" + "config/config.ini"
+    if configFilePath is None:
+        pathname = os.path.dirname(os.path.abspath(sys.argv[0]))
+        configFilePath = pathname + "/" + "config/config.ini"
     try:
         config.read(configFilePath)
         return config
