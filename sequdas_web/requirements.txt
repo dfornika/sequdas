@@ -1,0 +1,7 @@
+django
+psycopg2
+django-filters
+django-cors-headers
+graphene-django
+djangorestframework
+djangorestframework-jwt
