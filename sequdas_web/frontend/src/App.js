@@ -14,15 +14,7 @@ import 'react-table/react-table.css'
 class App extends Component {
     constructor(props) {
 	super(props);
-	//this.client = new ApolloClient({
-	//    link: new HttpLink({
-	//	uri: 'http://localhost:8000/graphql',
-	//	credentials: 'include',
-	//    }),
-	//    cache: new InMemoryCache(),
-	//});
-
-
+	
 	const httpLink = createHttpLink({
 	    uri: 'http://localhost:8000/graphql/',
 	    credentials: 'include',
@@ -39,17 +31,27 @@ class App extends Component {
 		}
 	    }
 	});
-
+	
 	this.client = new ApolloClient({
 	    link: authLink.concat(httpLink),
 	    cache: new InMemoryCache(),
 	});
-
-	
     }
     
     render() {
-	const allSequenceRuns = gql`{sequenceRuns{runId runStartTime clusterDensity clustersPf}}`
+	const allSequenceRuns = gql`{
+            sequenceRuns {
+                runId 
+                runStartTime
+                clusterDensity 
+                clustersPfPercent
+                samples {
+                    sampleName
+                    index1I7Seq
+                    readsIdentifiedPfPercent
+                }
+            }
+        }`
 	
 	function SequenceRunList({ loading, sequenceRuns }) {
 	    console.log(sequenceRuns)
@@ -57,27 +59,52 @@ class App extends Component {
 		return <div>Loading</div>;
 	    } else {
 		return (
-			<div className="App">
-			<ReactTable
-		    columns={[
-			{
-			    Header: 'Run ID',
-			    accessor: 'runId',
-			}, {
-			    Header: 'Start Time',
-			    accessor: 'runStartTime',
-			}, {
-			    Header: 'Cluster Density',
-			    accessor: 'clusterDensity',
-			    sortable: true,
-			}, {
-			    Header: 'Clusters PF (%)',
-			    accessor: 'clustersPf',
-			}
-		    ]}
+		    <div className="App">
+		      <ReactTable
+			columns={[
+			    {
+				Header: 'Run ID',
+				accessor: 'runId',
+			    }, {
+				Header: 'Start Time',
+				accessor: 'runStartTime',
+			    }, {
+				Header: 'Cluster Density',
+				accessor: 'clusterDensity',
+				sortable: true,
+			    }, {
+				Header: 'Clusters PF (%)',
+				accessor: 'clustersPfPercent',
+			    }
+			]}
 		    className="-striped -highlight"
 		    data={sequenceRuns}
 		    defaultPageSize={10}
+		    SubComponent={row => {
+			console.log(row)
+			return (
+				<div style={{ padding: "20px" }}>
+				<ReactTable
+			    data={row.original.samples}
+			    columns={[
+				{
+				    Header: 'Sample Name',
+				    accessor: 'sampleName',
+				}, {
+				    Header: 'Index Seq',
+				    accessor: 'index1I7Seq',
+				}, {
+				    Header: 'Reads Identified (%)',
+				    accessor: 'readsIdentifiedPfPercent',
+				    sortable: true,
+				}
+			    ]}
+			    defaultPageSize={8}
+			    showPagination={true}
+				/>
+				</div>
+			);
+		    }}
 			/>
 			</div>
 		);
@@ -92,11 +119,11 @@ class App extends Component {
 	})(SequenceRunList);
 	
 	return (
-		<div className="App">
-		  <ApolloProvider client={this.client}>
-		    <SequenceRunListWithData />
-		  </ApolloProvider>
-		</div>
+	    <div className="App">
+	      <ApolloProvider client={this.client}>
+		<SequenceRunListWithData />
+	      </ApolloProvider>
+	    </div>
 	);
     }
 }

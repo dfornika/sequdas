@@ -1,2 +1,3 @@
 *.pyc
 sequdas_web/frontend/node_modules
+sequdas_web/db.sqlite3

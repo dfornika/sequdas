@@ -1,6 +1,6 @@
-django
+django==1.11
 psycopg2
-django-filters
+django-filter
 django-cors-headers
 graphene-django
 djangorestframework

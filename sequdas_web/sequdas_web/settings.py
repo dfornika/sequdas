@@ -102,13 +102,17 @@ WSGI_APPLICATION = 'sequdas_web.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sequdas',
-        'USER': 'sequdas',
-        'PASSWORD': 'sequdas',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'sequdas',
+    #     'USER': 'sequdas',
+    #     'PASSWORD': 'sequdas',
+    #     'HOST': 'localhost',
+    #     'PORT': '',
+    # }
 }
 
 GRAPHENE = {
