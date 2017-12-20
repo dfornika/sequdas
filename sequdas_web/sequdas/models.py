@@ -10,6 +10,10 @@ class SequenceRun(models.Model):
     reads_total = models.PositiveIntegerField(blank=True)
     reads_pf = models.PositiveIntegerField(blank=True)
     bases_greater_than_q30_percent = models.DecimalField(max_digits=4, decimal_places=2, blank=True)
+    class Meta:
+        permissions = (
+            ('view_sequence_run', 'View Sequence Run'),
+        )    
     def __str__(self):
         return self.run_id
 

@@ -41,13 +41,15 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'graphene_django',
+    'guardian',
     'sequdas',
 ]
 
-# AUTHENTICATION_BACKENDS = [
-#     'django_auth_ldap.backend.LDAPBackend',
-#     'django.contrib.auth.backends.ModelBackend',
-# ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'django_auth_ldap.backend.LDAPBackend',
+    'guardian.backends.ObjectPermissionBackend',
+]
 
 AUTH_LDAP_SERVER_URI = "ldap://sabin.bcgsc.ca"
 AUTH_LDAP_START_TLS = True

@@ -6,3 +6,4 @@ graphene-django
 djangorestframework
 djangorestframework-jwt
 django-auth-ldap
+django-guardian
