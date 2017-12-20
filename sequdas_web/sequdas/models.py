@@ -25,7 +25,9 @@ class ReadSummary(models.Model):
     yield_gigabases = models.DecimalField(max_digits=5, decimal_places=2, blank=True)
     error_rate = models.DecimalField(max_digits=4, decimal_places=2, blank=True)
     bases_greater_than_q30_percent = models.DecimalField(max_digits=4, decimal_places=2, blank=True)
-
+    def __str__(self):
+        return (self.sequence_run.run_id + ": " + self.read_type)
+    
 class Sample(models.Model):
     sample_id = models.CharField(max_length=64)
     sample_name = models.CharField(max_length=64, blank=True)

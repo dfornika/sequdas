@@ -38,10 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'graphene_django',
     'sequdas',
 ]
+
+# AUTHENTICATION_BACKENDS = [
+#     'django_auth_ldap.backend.LDAPBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
+
+AUTH_LDAP_SERVER_URI = "ldap://sabin.bcgsc.ca"
+AUTH_LDAP_START_TLS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (

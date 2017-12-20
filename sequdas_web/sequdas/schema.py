@@ -3,7 +3,7 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django.contrib.auth.models import User
 
-from sequdas.models import SequenceRun, Sample
+from sequdas.models import SequenceRun, Sample, ReadSummary
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -13,6 +13,10 @@ class SequenceRunType(DjangoObjectType):
     class Meta:
         model = SequenceRun
 
+class ReadSummaryType(DjangoObjectType):
+    class Meta:
+        model = ReadSummary
+        
 class SampleType(DjangoObjectType):
     class Meta:
         model = Sample
@@ -31,3 +35,7 @@ class Query(graphene.ObjectType):
     samples = graphene.List(SampleType)
     def resolve_samples(self, info, **kwargs):
         return Samples.objects.select_related('sequence_run').all()
+
+    readSummaries = graphene.List(ReadSummaryType)
+    def resolve_read_summaries(self, info, **kwargs):
+        return ReadSummary.objects.select_related('sequence_run').all()

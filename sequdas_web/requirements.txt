@@ -5,3 +5,4 @@ django-cors-headers
 graphene-django
 djangorestframework
 djangorestframework-jwt
+django-auth-ldap

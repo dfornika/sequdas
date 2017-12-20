@@ -59,7 +59,6 @@ class App extends Component {
 		return <div>Loading</div>;
 	    } else {
 		return (
-		    <div className="App">
 		      <ReactTable
 			columns={[
 			    {
@@ -106,7 +105,6 @@ class App extends Component {
 			);
 		    }}
 			/>
-			</div>
 		);
 	    }
 	}
