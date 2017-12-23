@@ -5,11 +5,7 @@ import { setContext } from 'apollo-link-context';
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo'
 
-import SequenceRunTable from './components/SequenceRunTable.jsx'
-import Header from './components/Header.jsx'
-
-import './App.css';
-import 'react-table/react-table.css'
+import RootComponent from './components/RootComponent.jsx'
 
 class App extends Component {
     constructor(props) {
@@ -39,12 +35,10 @@ class App extends Component {
     }
     
     render() {
-	
 	return (
 	    <div className="App">
 	      <ApolloProvider client={this.client}>
-		<Header />
-		<SequenceRunTable />
+		<RootComponent />
 	      </ApolloProvider>
 	    </div>
 	);
