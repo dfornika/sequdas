@@ -27,10 +27,10 @@ from graphene_django.views import GraphQLView
 import sequdas_web.views as views
 
 urlpatterns = [
-    url(r'^login/$', auth_views.login),
-    url(r'^logout/$', auth_views.logout),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^graphql/', csrf_exempt(views.DRFAuthenticatedGraphQLView.as_view())),
+    url(r'^graphql/', csrf_exempt(GraphQLView.as_view())),
     url(r'^graphiql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),

@@ -5,8 +5,8 @@ import { setContext } from 'apollo-link-context';
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo'
 
-import RootComponent from './components/RootComponent.jsx'
-
+// import RootComponent from './components/RootComponent.jsx'
+import SequenceRunTable from './components/SequenceRunTable.jsx'
 class App extends Component {
     constructor(props) {
 	super(props);
@@ -23,7 +23,7 @@ class App extends Component {
 	    return {
 		headers: {
 		    ...headers,
-		    authorization: token ? `JWT ${token}` : null,
+		    Authorization: token ? `JWT ${token}` : null,
 		}
 	    }
 	});
@@ -38,7 +38,7 @@ class App extends Component {
 	return (
 	    <div className="App">
 	      <ApolloProvider client={this.client}>
-		<RootComponent />
+		<SequenceRunTable />
 	      </ApolloProvider>
 	    </div>
 	);

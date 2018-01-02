@@ -47,7 +47,7 @@ INSTALLED_APPS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'django_auth_ldap.backend.LDAPBackend',
+#    'django_auth_ldap.backend.LDAPBackend',
     'guardian.backends.ObjectPermissionBackend',
 ]
 
@@ -78,7 +78,7 @@ CORS_ALLOW_CREDENTIALS = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'sequdas_web.middleware.JWTMiddleware',
+    'sequdas_web.middleware.JWTAuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

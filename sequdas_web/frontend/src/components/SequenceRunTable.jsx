@@ -9,8 +9,6 @@ import './SequenceRunTable.css';
 
 class SequenceRunTable extends Component {
 
-  
-
     render() {
 	const allSequenceRuns = gql`{
             sequenceRuns {
@@ -27,7 +25,6 @@ class SequenceRunTable extends Component {
           }`
 
 	function SequenceRunTable({ loading, sequenceRuns }) {
-	    console.log(sequenceRuns)
 	    if (loading) {
 		return <div>Loading</div>;
 	    } else {
@@ -53,7 +50,6 @@ class SequenceRunTable extends Component {
 		      data={sequenceRuns}
 		      defaultPageSize={10}
 		      SubComponent={row => {
-			  console.log(row)
 			  return (
 			      <div style={{ padding: "20px" }}>
 				<ReactTable
@@ -73,11 +69,11 @@ class SequenceRunTable extends Component {
 				  ]}
 				  defaultPageSize={8}
 				  showPagination={true}
-				  />
+			      />
 			      </div>
 			  );
 		      }}
-			/>
+		    />
 		);
 	    }
 	}

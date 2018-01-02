@@ -7,10 +7,10 @@ class RootComponent extends Component {
  
     render() {
 	return (
-	    <div>
-	      <Header />
+	    [
+	      <Header />,
 	      <SequenceRunTable />
-	    </div>	      
+	    ]
 	);
     }
 }
