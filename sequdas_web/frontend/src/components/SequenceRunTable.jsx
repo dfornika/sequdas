@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag'
 
 import ReactTable from 'react-table'
+import "react-table/react-table.css"
 
 import './SequenceRunTable.css';
 

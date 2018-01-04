@@ -7,7 +7,7 @@ class Header extends Component {
     render() {
 	return (
 	    <header>
-	      SeqUDAS
+	      <h1>SeqUDAS</h1>
 	    </header>
 	);
     }

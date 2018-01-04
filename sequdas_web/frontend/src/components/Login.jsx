@@ -32,27 +32,30 @@ class Login extends Component {
 	});
     }
     
-    handleChangeUsername(event) {
-	this.setState({username: event.target.value})
-    }
-
-    handleChangePassword(event) {
-	this.setState({password: event.target.value})
-    }
-    
     handleSubmit(e) {
         e.preventDefault()
         this.getToken(this.state.username, this.state.password)
+	this.props.history.push(`/`)
     }
 
     
     
     render() {
         return (
-	    <div class="wrapper">
-            <form onSubmit={this.handleSubmit}>
-            <input type="text" placeholder="username" value={this.state.username} onChange={this.handleChangeUsername.bind(this)} />
-            <input type="password" placeholder="password" value={this.state.password} onChange={this.handleChangePassword.bind(this)} />
+	    <div className="wrapper">
+              <form onSubmit={this.handleSubmit}>
+		<input
+		  value={this.state.username}
+		  onChange={(e) => this.setState({ username: e.target.value })}
+		  type="text"
+		  placeholder="username"
+		/>
+		<input
+		  value={this.state.password}
+		  onChange={(e) => this.setState({ password: e.target.value })}
+		  type="password"
+		  placeholder="password"
+		/>
             <button type="submit">Login</button>
             </form>
 	    </div>
