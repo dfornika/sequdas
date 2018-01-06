@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import './Header.css';
+import Logout from './Logout'
 
 class Header extends Component {
  
@@ -8,6 +9,7 @@ class Header extends Component {
 	return (
 	    <header>
 	      <h1>SeqUDAS</h1>
+	      <Logout />
 	    </header>
 	);
     }

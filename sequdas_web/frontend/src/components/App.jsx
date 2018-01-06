@@ -6,7 +6,7 @@ import Header from './Header'
 import SequenceRunTable from './SequenceRunTable'
 
 class App extends Component {
-
+    
     auth = require('../auth')
     
     requireAuth(nextState, replace) {

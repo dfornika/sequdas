@@ -1,0 +1,14 @@
+.form-submit{
+    font-family: sans-serif;
+    height: 35px;
+    color: #fff;
+    background-color: #2669D6;
+    border: none;
+    letter-spacing: 0.2rem;
+    transition: 0.3s opacity ease;
+    cursor: pointer;
+}
+
+.form-submit:hover{
+   opacity: 0.6;
+}

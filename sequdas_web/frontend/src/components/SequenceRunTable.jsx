@@ -4,8 +4,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag'
 
 import ReactTable from 'react-table'
-import "react-table/react-table.css"
-
+import 'react-table/react-table.css'
+import moment from 'moment'
 import './SequenceRunTable.css';
 
 class SequenceRunTable extends Component {
@@ -36,8 +36,9 @@ class SequenceRunTable extends Component {
 			      Header: 'Run ID',
 			      accessor: 'runId',
 			  }, {
+			      id: 'runStartTime',
 			      Header: 'Start Time',
-			      accessor: 'runStartTime',
+			      accessor: (row) => moment(row.runStartTime).format("h:mm:ss a MMM DD, YYYY"),
 			  }, {
 			      Header: 'Cluster Density',
 			      accessor: 'clusterDensity',

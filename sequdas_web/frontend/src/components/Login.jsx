@@ -37,27 +37,30 @@ class Login extends Component {
         this.getToken(this.state.username, this.state.password)
 	this.props.history.push(`/`)
     }
-
-    
     
     render() {
         return (
-	    <div className="wrapper">
+	    <div className="center">
+              <div className="card">
+		<h1>Login</h1>
               <form onSubmit={this.handleSubmit}>
 		<input
+		  className="form-item"
 		  value={this.state.username}
 		  onChange={(e) => this.setState({ username: e.target.value })}
 		  type="text"
 		  placeholder="username"
 		/>
 		<input
+		  className="form-item"
 		  value={this.state.password}
 		  onChange={(e) => this.setState({ password: e.target.value })}
 		  type="password"
 		  placeholder="password"
 		/>
-            <button type="submit">Login</button>
-            </form>
+                <button className="form-submit" type="submit">Login</button>
+              </form>
+	      </div>
 	    </div>
         )    
     }
