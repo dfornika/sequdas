@@ -9,10 +9,6 @@ class Logout extends Component {
 	router: () => PropTypes.isRequired
     }
     
-    constructor(props, context) {
-	super(props, context);
-    }
-    
     handleLogout() {
         localStorage.removeItem("token")
 	this.context.router.history.push('/login')

@@ -26,11 +26,28 @@ from rest_framework_jwt.views import verify_jwt_token
 from graphene_django.views import GraphQLView
 import sequdas_web.views as views
 
+
+
+
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes, api_view
+
+def graphql_token_view():
+    view = GraphQLView.as_view()
+    view = permission_classes((IsAuthenticated,))(view)
+    view = authentication_classes((JSONWebTokenAuthentication,))(view)
+    return view
+
+
+
+
 urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^graphql/', csrf_exempt(GraphQLView.as_view())),
+    url(r'^graphql/', csrf_exempt(graphql_token_view())),
+#    url(r'^graphql/', csrf_exempt(GraphQLView.as_view())),
     url(r'^graphiql/', csrf_exempt(GraphQLView.as_view(graphiql=True))),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),

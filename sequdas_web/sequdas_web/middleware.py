@@ -37,4 +37,6 @@ class JWTAuthenticationMiddleware(object):
         return self.get_response(request)
     
     def process_request(self, request):
+        print("HELLO FROM MIDDLEWARE")
         request.user = SimpleLazyObject(lambda : get_user_jwt(request))
+        
