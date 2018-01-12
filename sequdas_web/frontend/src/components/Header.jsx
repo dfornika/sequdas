@@ -8,6 +8,7 @@ class Header extends Component {
     render() {
 	return (
 	    <header>
+	      <div>
 	      <h1>SeqUDAS</h1>
 	      <Logout />
 	    </header>
