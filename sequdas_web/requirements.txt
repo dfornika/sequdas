@@ -6,6 +6,6 @@ graphene==2.0.1
 graphene-django
 djangorestframework
 djangorestframework-jwt
-jwt
+pyjwt
 django-auth-ldap
 django-guardian
