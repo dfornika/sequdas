@@ -1,4 +1,6 @@
 .form-submit{
+    order: 1;
+    align-self: center;
     font-family: sans-serif;
     height: 35px;
     color: #fff;

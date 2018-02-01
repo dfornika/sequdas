@@ -1,16 +1,19 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import axios from 'axios'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import './Login.css'
+import AuthService from './AuthService';
+
+import './Login.css';
 
 class Login extends Component {
+
     constructor(props){
 	super(props);
 	this.state = {
 	    username: '',
 	    password: ''
-	}
+	};
+	this.Auth = new AuthService();
 	this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -18,24 +21,21 @@ class Login extends Component {
 	router: () => PropTypes.isRequired
     }
 
-    getToken(username, password) {
-	axios({
-	    method: 'post',
-	    url: 'http://localhost:8000/api-token-auth/',
-	    data: {
-		username: username,
-		password: password
-	    }
-	}).then(function(response) {
-	    console.log(response)
-            localStorage.setItem('token', response.data.token)
-	});
+    componentWillMount(){
+	if(this.Auth.loggedIn()) {
+            this.props.history.replace('/');
+	}
     }
     
     handleSubmit(e) {
-        e.preventDefault()
-        this.getToken(this.state.username, this.state.password)
-	this.props.history.push(`/`)
+	e.preventDefault();
+        this.Auth.login(this.state.username, this.state.password)
+	    .then(response => {
+		this.props.history.push(`/`);
+	    })
+	.catch(err =>{
+                alert(err);
+        });
     }
     
     render() {
@@ -62,7 +62,7 @@ class Login extends Component {
               </form>
 	      </div>
 	    </div>
-        )    
+        );
     }
 }
 

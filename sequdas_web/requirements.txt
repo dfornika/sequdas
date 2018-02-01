@@ -2,8 +2,10 @@ django==1.11
 psycopg2
 django-filter
 django-cors-headers
+graphene==2.0.1
 graphene-django
 djangorestframework
 djangorestframework-jwt
+jwt
 django-auth-ldap
 django-guardian

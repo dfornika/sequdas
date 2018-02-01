@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
 import './Header.css';
-import Logout from './Logout'
+import Logout from './Logout';
 
 class Header extends Component {
  
     render() {
 	return (
 	    <header>
-	      <div>
-	      <h1>SeqUDAS</h1>
+	      <div className="header title">
+		<h1>SeqUDAS</h1>
+	      </div>
 	      <Logout />
 	    </header>
 	);

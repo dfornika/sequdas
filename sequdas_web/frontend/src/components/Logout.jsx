@@ -1,25 +1,30 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import './Logout.css'
+import AuthService from './AuthService';
+
+import './Logout.css';
 
 class Logout extends Component {
 
+    constructor(props) {
+	super(props);
+	this.Auth = new AuthService();
+    };
+    
     static contextTypes = {
 	router: () => PropTypes.isRequired
     }
     
     handleLogout() {
-        localStorage.removeItem("token")
-	this.context.router.history.push('/login')
+	this.Auth.logout();
+	this.context.router.history.push('/login');
     }
     
     render() {
         return (
-	    <div>
-              <button type="button" className="form-submit" onClick={this.handleLogout.bind(this)}>Logout</button>
-	    </div>
-        )
+            <button type="button" className="form-submit" onClick={this.handleLogout.bind(this)}>Logout</button>
+        );
     }
 }
 

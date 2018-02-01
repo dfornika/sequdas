@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'sequdas_web.auth.TokenAuthentication',
     'django.contrib.auth.backends.ModelBackend',
 #    'django_auth_ldap.backend.LDAPBackend',
     'guardian.backends.ObjectPermissionBackend',
@@ -176,3 +177,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(os.path.join(BASE_DIR, 'frontend'), 'build', 'static'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

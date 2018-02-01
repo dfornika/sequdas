@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
-import ReactTable from 'react-table'
-import 'react-table/react-table.css'
-import moment from 'moment'
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+import moment from 'moment';
 import './SequenceRunTable.css';
 
 class SequenceRunTable extends Component {
@@ -23,7 +23,7 @@ class SequenceRunTable extends Component {
                 readsIdentifiedPfPercent
               }
             }
-          }`
+          }`;
 
 	function SequenceRunTable({ loading, sequenceRuns }) {
 	    if (loading) {
@@ -34,18 +34,18 @@ class SequenceRunTable extends Component {
 		      columns={[
 			  {
 			      Header: 'Run ID',
-			      accessor: 'runId',
+			      accessor: 'runId'
 			  }, {
 			      id: 'runStartTime',
 			      Header: 'Start Time',
-			      accessor: (row) => moment(row.runStartTime).format("h:mm:ss a MMM DD, YYYY"),
+			      accessor: (row) => moment(row.runStartTime).format("h:mm:ss a MMM DD, YYYY")
 			  }, {
 			      Header: 'Cluster Density',
 			      accessor: 'clusterDensity',
-			      sortable: true,
+			      sortable: true
 			  }, {
 			      Header: 'Clusters PF (%)',
-			      accessor: 'clustersPfPercent',
+			      accessor: 'clustersPfPercent'
 			  }
 		      ]}
 		      className="-striped -highlight"
@@ -59,14 +59,14 @@ class SequenceRunTable extends Component {
 				  columns={[
 				      {
 					  Header: 'Sample Name',
-					  accessor: 'sampleName',
+					  accessor: 'sampleName'
 				      }, {
 					  Header: 'Index Seq',
-					  accessor: 'index1I7Seq',
+					  accessor: 'index1I7Seq'
 				      }, {
 					  Header: 'Reads Identified (%)',
 					  accessor: 'readsIdentifiedPfPercent',
-					  sortable: true,
+					  sortable: true
 				      }
 				  ]}
 				  defaultPageSize={8}
@@ -84,7 +84,7 @@ class SequenceRunTable extends Component {
 	    props: ({data: { loading, sequenceRuns }}) => ({
 		loading,
 		sequenceRuns
-	    }),
+	    })
 	})(SequenceRunTable);
 	
 	return (

@@ -34,7 +34,8 @@ class JWTAuthenticationMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        return self.get_response(request)
+        response = self.get_response(request)
+        return response
     
     def process_request(self, request):
         print("HELLO FROM MIDDLEWARE")

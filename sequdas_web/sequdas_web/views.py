@@ -1,2 +1,3 @@
 from sequdas.views import ReactAppView
-from sequdas.views import DRFAuthenticatedGraphQLView
+from sequdas.views import PrivateGraphQLView
+

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import Header from './Header.jsx'
-import SequenceRunTable from './SequenceRunTable.jsx'
+import Header from './Header.jsx';
+import SequenceRunTable from './SequenceRunTable.jsx';
 
 class RootComponent extends Component {
  
     render() {
 	return (
 	    [
-	      <Header />,
-	      <SequenceRunTable />
+		<Header />,
+		<SequenceRunTable />
 	    ]
 	);
     }

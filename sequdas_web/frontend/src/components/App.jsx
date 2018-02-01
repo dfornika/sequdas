@@ -1,31 +1,35 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom';
 
-import Login from './Login'
-import Header from './Header'
-import SequenceRunTable from './SequenceRunTable'
+import AuthService from './AuthService';
+import Login from './Login';
+import Header from './Header';
+import SequenceRunTable from './SequenceRunTable';
 
 class App extends Component {
-    
-    auth = require('../auth')
+
+    constructor(props) {
+	super(props);
+	this.Auth = new AuthService();
+    };
     
     requireAuth(nextState, replace) {
-	if (!this.auth.loggedIn()) {
+	if (!this.Auth.loggedIn()) {
             replace({
 		pathname:'/login/',
 		state: {nextPathname: '/'}
-            })
+            });
 	}
     }
     
     render() {
 	return (
-		<div className="App">
-		<Header />
-		<Switch>
+	    <div className="App">
+	      <Header />
+	      <Switch>
 		<Route exact path='/' component={SequenceRunTable} onEnter={this.requireAuth} />
 		<Route exact path='/login/' component={Login} />
-		</Switch>
+	      </Switch>
 	    </div>
 	);
     }
