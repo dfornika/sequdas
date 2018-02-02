@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 import Header from './components/Header.jsx';
 import Nav from './components/Nav.jsx';
@@ -16,10 +16,11 @@ class App extends Component {
 	    <div className="App">
 	      <Header />
 	      <Nav />
-	      <BrowserRouter>
-		<Route exact path='/' component={RunSampleChooser} onEnter={requireAuth} />
+	      <Switch>
+		<Route exact path='/' component={RunSampleChooser} />
 		<Route exact path='/login/' component={Login} />
-	      </BrowserRouter>
+		<Route exact path='/summary/' component={SequenceRunTable} />
+	      </Switch>
 	    </div>
 	);
     }

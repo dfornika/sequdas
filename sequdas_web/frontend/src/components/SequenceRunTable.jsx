@@ -6,7 +6,10 @@ import gql from 'graphql-tag';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import moment from 'moment';
+
+import Nav from './Nav.jsx';
 import './SequenceRunTable.css';
+
 
 class SequenceRunTable extends Component {
 
@@ -88,7 +91,10 @@ class SequenceRunTable extends Component {
 	})(SequenceRunTable);
 	
 	return (
-	    <SequenceRunTableWithData />
+	    <div>
+	      <Nav />
+	      <SequenceRunTableWithData />
+	    </div>
 	);
     }
 }

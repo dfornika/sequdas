@@ -5,35 +5,20 @@ import gql from 'graphql-tag';
 
 import { Accordion } from 'semantic-ui-react';
 
+import Nav from './Nav.jsx';
+
+import 'semantic-ui-css/semantic.min.css';
 import './RunSampleChooser.css';
 
 class RunSampleChooser extends Component {
- 
+    
     render() {
-	const allSequenceRuns = gql`{
-          sequenceRuns {
-            runID
-          }
-        }`;
 
-	function RunSampleChooser({loading, sequenceRuns }) {
-	    if (loading) {
-		return <div>Loading...</div>;
-	    } else {
-		return (
-		    <Accordion
-		      />
-		);
-	}
-	const RunSampleChooserWithData = graphql(allSequenceRuns, {
-	    props: ({data: { loading, sequenceRuns }}) => ({
-		loading,
-		sequenceRuns
-	    })
-	})(RunSampleChooser);
-	
 	return (
-	    <RunSampleChooserWithData />
+	    <div>
+	      <Nav />
+	      <Accordion fluid styled panels={this.props.runs} />
+	    </div>
 	);
     }
 }
