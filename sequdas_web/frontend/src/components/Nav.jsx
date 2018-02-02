@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 
 import './Nav.css';
 
-class Header extends Component {
+class Nav extends Component {
  
     render() {
 	return (
 	    <ul>
+	      <a />
 	    </ul>
 	);
     }
