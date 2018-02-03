@@ -36,6 +36,6 @@ class Query(graphene.ObjectType):
     def resolve_samples(self, info, **kwargs):
         return Samples.objects.select_related('sequence_run').all()
 
-    readSummaries = graphene.List(ReadSummaryType)
+    read_summaries = graphene.List(ReadSummaryType)
     def resolve_read_summaries(self, info, **kwargs):
         return ReadSummary.objects.select_related('sequence_run').all()

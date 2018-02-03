@@ -23,7 +23,7 @@ class Logout extends Component {
     
     render() {
         return (
-            <button type="button" className="form-submit" onClick={this.handleLogout.bind(this)}>Logout</button>
+            <button type="button" className="form-submit logout" onClick={this.handleLogout.bind(this)}>Logout</button>
         );
     }
 }
