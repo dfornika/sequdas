@@ -1,4 +1,14 @@
+nav {
+    display: grid !important;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-areas: 
+    "a a a a a a b b";
+    align-items: start;
+}
+
 ul {
+    order: 0;
+    grid-area: a;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -18,9 +28,18 @@ li a {
     text-decoration: none;
 }
 
-/* Change the link color to #111 (black) on hover */
 li a:hover {
     color: white;
     background-color: #2669d6;
 }
 
+div.username {
+    order: 1;
+    grid-area: b;
+    display: block;
+    float: right;
+    color: #2669d6;
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+}

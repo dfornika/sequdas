@@ -12,6 +12,7 @@ class Nav extends Component {
 		<li><Link to='/'>Home</Link></li>
 		<li><Link to='/summary'>Summary</Link></li>
 	      </ul>
+	      <div className="username">{this.props.email}</div>	      
 	    </nav>
 	);
     }

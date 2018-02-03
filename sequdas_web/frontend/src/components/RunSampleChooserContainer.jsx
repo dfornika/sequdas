@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Accordion } from 'semantic-ui-react';
-
+import withAuth from './withAuth';
 import RunSampleChooser from './RunSampleChooser.jsx';
 
 
@@ -25,4 +24,4 @@ class RunSampleChooserContainer extends Component {
     }
 }
 
-export default RunSampleChooserContainer;
+export default withAuth(RunSampleChooserContainer);

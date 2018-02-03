@@ -7,9 +7,9 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import moment from 'moment';
 
+import withAuth from './withAuth.jsx';
 import Nav from './Nav.jsx';
 import './SequenceRunTable.css';
-
 
 class SequenceRunTable extends Component {
 
@@ -92,11 +92,11 @@ class SequenceRunTable extends Component {
 	
 	return (
 	    <div>
-	      <Nav />
+	      <Nav email={this.props.user.email}/>
 	      <SequenceRunTableWithData />
 	    </div>
 	);
     }
 }
 
-export default SequenceRunTable;
+export default withAuth(SequenceRunTable);
