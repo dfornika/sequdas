@@ -25,7 +25,7 @@ export default class AuthService {
 
     loggedIn() {
         // Checks if there is a saved token and it's still valid
-        const token = this.getToken() // GEtting token from localstorage
+        const token = this.getToken() // Getting token from localstorage
         return !!token && !this.isTokenExpired(token) // handwaiving here
     }
 
@@ -74,6 +74,7 @@ export default class AuthService {
         // Setting Authorization header
         // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
         if (this.loggedIn()) {
+	    console.log(this.getToken())
             headers['authorization'] = 'JWT ' + this.getToken()
         }
 

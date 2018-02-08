@@ -2,6 +2,7 @@ import graphene
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from django.contrib.auth.models import User
+#from guardian.shortcuts import get_objects_for_user
 
 from sequdas.models import SequenceRun, Sample, ReadSummary
 
@@ -30,11 +31,10 @@ class Query(graphene.ObjectType):
 
     sequence_runs = graphene.List(SequenceRunType)
     def resolve_sequence_runs(self, info, **kwargs):
-        orderBy = kwargs.get("orderBy", None)
-        if orderBy:
-            return SequenceRun.objects.order_by(*orderBy)
-        else:
-            return SequenceRun.objects.all()
+        user = info.context.user
+        print(user)
+        user_sequence_runs = [x for x in SequenceRun.objects.all() if user.has_perm('sequdas.view_sequence_run', x)]
+        return user_sequence_runs
 
     samples = graphene.List(SampleType)
     def resolve_samples(self, info, **kwargs):
