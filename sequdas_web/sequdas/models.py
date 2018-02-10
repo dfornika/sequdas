@@ -40,6 +40,10 @@ class Sample(models.Model):
     index_1_i7_seq = models.CharField(max_length=16, blank=True)
     index_2_i5_seq = models.CharField(max_length=16, blank=True)
     reads_identified_pf_percent = models.DecimalField(max_digits=6, decimal_places=4, blank=True)
+    class Meta:
+        permissions = (
+            ('view_sample', 'View Sample'),
+        )    
     def __str__(self):
         return (self.sequence_run.run_id + ": " + self.sample_id + "/" + self.sample_name)
 
