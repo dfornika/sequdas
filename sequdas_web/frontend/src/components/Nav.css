@@ -2,7 +2,7 @@ nav {
     display: grid !important;
     grid-template-columns: repeat(8, 1fr);
     grid-template-areas: 
-    "a a a a a a b b";
+    "a a a a b b c c";
     align-items: start;
 }
 
@@ -42,4 +42,8 @@ div.username {
     text-align: center;
     padding: 10px 16px;
     text-decoration: none;
+}
+
+button.logout {
+    grid-area: c;
 }
