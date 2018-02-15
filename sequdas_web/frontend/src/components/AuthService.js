@@ -74,7 +74,7 @@ export default class AuthService {
         }
 
         // Setting Authorization header
-        // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
+        // Authorization: JWT xxxxxxx.xxxxxxxx.xxxxxx
         if (this.loggedIn()) {
 	    console.log(this.getToken())
             headers['authorization'] = 'JWT ' + this.getToken()

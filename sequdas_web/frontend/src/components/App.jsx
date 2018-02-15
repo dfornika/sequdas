@@ -8,14 +8,11 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 
-import AuthService from './AuthService';
-
 import Login from './Login';
 import Header from './Header';
 import SequenceRunTable from './SequenceRunTable';
 import RunSampleChooserContainer from './RunSampleChooserContainer.jsx';
 
-const Auth = new AuthService();
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
     credentials: 'include'

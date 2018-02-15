@@ -10,9 +10,8 @@ class Nav extends Component {
 	return (
 	    <nav>
 	      <ul>
-		<li><Link to='/'>Home</Link></li>
+		<li><Link to='/'>Run Summary</Link></li>
 		<li><Link to='/summary'>Summary</Link></li>
-		<li><Link to='/testing'>Testing</Link></li>
 	      </ul>
 	      <div className="username">{this.props.email}</div>
 	      <Logout/>
