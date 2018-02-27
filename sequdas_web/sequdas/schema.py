@@ -4,7 +4,11 @@ from graphene_django.filter import DjangoFilterConnectionField
 from django.contrib.auth.models import User
 #from guardian.shortcuts import get_objects_for_user
 
-from sequdas.models import SequenceRun, Sample, ReadSummary
+from sequdas.models import SequenceRun
+from sequdas.models import Sample
+from sequdas.models import ReadSummary
+from sequdas.models import SampleSheet
+from sequdas.models import SampleSheetSample
 
 class UserType(DjangoObjectType):
     class Meta:
@@ -21,6 +25,14 @@ class ReadSummaryType(DjangoObjectType):
 class SampleType(DjangoObjectType):
     class Meta:
         model = Sample
+
+class SampleSheetType(DjangoObjectType):
+    class Meta:
+        model = SampleSheet
+
+class SampleSheetSampleType(DjangoObjectType):
+    class Meta:
+        model = SampleSheetSample
 
 class Query(graphene.ObjectType):
     current_user = graphene.Field(UserType)
@@ -43,3 +55,11 @@ class Query(graphene.ObjectType):
     read_summaries = graphene.List(ReadSummaryType)
     def resolve_read_summaries(self, info, **kwargs):
         return ReadSummary.objects.select_related('sequence_run').all()
+
+    sample_sheets = graphene.List(SampleSheetType)
+    def resolve_sample_sheets(self, info, **kwargs):
+        return SampleSheet.objects.all()
+
+    sample_sheet_samples = graphene.List(SampleSheetSampleType)
+    def resolve_sample_sheet_samples(self, info, **kwargs):
+        return SampleSheet.objects.select_related('sample_sheet').all()
