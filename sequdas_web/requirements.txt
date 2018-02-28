@@ -8,3 +8,4 @@ djangorestframework
 djangorestframework-jwt
 pyjwt
 django-guardian
+sample_sheet
