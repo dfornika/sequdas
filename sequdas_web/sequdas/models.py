@@ -48,7 +48,9 @@ class Sample(models.Model):
         return (self.sequence_run.run_id + ": " + self.sample_id + "/" + self.sample_name)
 
 class SampleSheet(models.Model):
-    iem_file_version = models.CharField(max_length=8)
+    sequence_run = models.ForeignKey(SequenceRun, on_delete=models.CASCADE, related_name='sample_sheet', blank=True, null=True)
+    path = models.CharField(max_length=256, blank=True)
+    iem_file_version = models.CharField(max_length=8, blank=True)
     investigator_name = models.CharField(max_length=64, blank=True)
     project_name = models.CharField(max_length=64, blank=True)
     experiment_name = models.CharField(max_length=64, blank=True)
@@ -57,12 +59,15 @@ class SampleSheet(models.Model):
     assay = models.CharField(max_length=64, blank=True)
     description = models.CharField(max_length=64, blank=True)
     chemistry = models.CharField(max_length=64, blank=True)
+    application = models.CharField(max_length=54, blank=True)
     read1_length = models.IntegerField()
     read2_length = models.IntegerField()
+    reverse_complement = models.NullBooleanField()
     adapter = models.CharField(max_length=128, blank=True)
-    adapter_read_2 = models.CharField(max_length=128, blank=True)
+    adapter_read2 = models.CharField(max_length=128, blank=True)
     def __str__(self):
         return (str(self.date) + ": " + self.investigator_name + "/" + self.project_name)
+    
 class SampleSheetSample(models.Model):
     sample_sheet = models.ForeignKey(
         'SampleSheet',
