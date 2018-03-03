@@ -56,8 +56,8 @@ class Command(BaseCommand):
         print("Reverse Complement: " + str(reverse_complement))
         print("Adapter: " + str(adapter))
         print("Adapter Read2: " + str(adapter_read2))
-
-        SequdasSampleSheet.objects.create(
+        
+        db_sample_sheet = SequdasSampleSheet.objects.create(
             path = path,
             iem_file_version = iem_file_version if iem_file_version else "",
             investigator_name = investigator_name if investigator_name else "",
@@ -75,3 +75,14 @@ class Command(BaseCommand):
             adapter = adapter if adapter else "",
             adapter_read2 = adapter_read2 if adapter_read2 else ""
         )
+        
+        print(db_sample_sheet.id)
+        
+        for sample in sample_sheet.samples:
+            sample_id = sample.Sample_ID
+            sample_name = sample.Sample_Name
+#            i7_index = 
+            print("Sample ID: " + str(sample_id))
+            print("Sample Name: " + str(sample_name))
+            print(sample.__dict__)
+        
