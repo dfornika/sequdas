@@ -8,6 +8,7 @@ import argparse
 from django.core.management.base import BaseCommand, CommandError
 from sample_sheet import SampleSheet as IlluminaSampleSheet
 from sequdas.models import SampleSheet as SequdasSampleSheet
+from sequdas.models import Sample
 
 class Command(BaseCommand):
     help = "Loads an illumina samplesheet into SequDAS"
@@ -79,10 +80,20 @@ class Command(BaseCommand):
         print(db_sample_sheet.id)
         
         for sample in sample_sheet.samples:
+            sequence_run_id = db_sample_shee
             sample_id = sample.Sample_ID
             sample_name = sample.Sample_Name
-#            i7_index = 
+            index_1_i7_seq = sample.index
+            index_2_i5_seq = sample.index2
             print("Sample ID: " + str(sample_id))
             print("Sample Name: " + str(sample_name))
+            print("Sample i7 index: " + str(index_1_i7_seq))
+            print("Sample i5 index: " + str(index_2_i5_seq))
             print(sample.__dict__)
-        
+
+            db_sample = Sample.objects.create(
+                sample_id = sample_id if sample_id else "",
+                sample_name = sample_name if sample_name else "",
+                index_1_i7_seq = index_1_i7_seq if index_1_i7_seq else "",
+                index_2_i5_seq = index_2_i5_seq if index_2_i5_seq else "",
+            )

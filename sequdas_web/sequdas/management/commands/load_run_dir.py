@@ -3,12 +3,13 @@
 import os
 import sys
 import logging
+from datetime import datetime
 import numpy
+import xmltodict
 from interop import py_interop_run_metrics, py_interop_run, py_interop_summary
 from django.core.management.base import BaseCommand, CommandError
 
 class Command(BaseCommand):
-
     help = "Loads an illumina run directory into SequDAS"
 
     def add_arguments(self, parser):
@@ -17,30 +18,37 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger = logging.getLogger(__name__)
         run_folder = os.path.abspath(options['run_dir'])
-        print(run_folder)
-
-        run_metrics = py_interop_run_metrics.run_metrics()
-        summary = py_interop_summary.run_summary()
-
-        valid_to_load = py_interop_run.uchar_vector(py_interop_run.MetricCount, 0)
-        py_interop_run_metrics.list_summary_metrics_to_load(valid_to_load)
+        with open(os.path.abspath(options['run_dir'] + '/RunInfo.xml')) as fd:
+            run_info_xml = xmltodict.parse(fd.read())
         
+        run_info = py_interop_run.info()
+        run_metrics = py_interop_run_metrics.run_metrics()
+        run_summary = py_interop_summary.run_summary()
+
         try:
-            run_metrics.read(run_folder, valid_to_load)
+            run_info.read(run_folder)
+            run_metrics.read(run_folder)
+            run_summary.initialize(run_info)
+            py_interop_summary.summarize_run_metrics(run_metrics, run_summary)
         except Exception as ex:
             logging.warn("Skipping - cannot read RunInfo.xml: %s - %s"%(run_folder, str(ex)))
+
+        date = datetime.strptime(run_info.date(), "%y%m%d").date()
+        run_id = run_info.name()
+        folder = os.path.abspath(options['run_dir'])
         
-        py_interop_summary.summarize_run_metrics(run_metrics, summary)
+        
+        print("Date: " + str(date.isoformat()))
+        print("Run Name: " + str(run_id))
+        print("Lane Count: " + str(run_summary.lane_count()))
+        # print("Cluster Density: " + str(cluster_density))
+        print("Summary Size: " + str(run_summary.size()))
+        print("Summary Lane Count: " + str(run_summary.lane_count()))
+        print("Summary Surface Count: " + str(run_summary.surface_count()))
 
-        error_rate_read_lane_surface = numpy.zeros((summary.size(), summary.lane_count(), summary.surface_count()))
-        for read_index in range(summary.size()):
-            for lane_index in range(summary.lane_count()):
-                for surface_index in range(summary.surface_count()):
-                    error_rate_read_lane_surface[read_index, lane_index, surface_index] = \
-                        summary.at(read_index).at(lane_index).at(surface_index).error_rate().mean()
-        print("Run Folder: " + run_folder)
-        for read_index in range(summary.size()):
-            read_summary = summary.at(read_index)
-            print("Read " + str(read_summary.read().number()) + " - Top Surface Mean Error: " + \
-                  str(error_rate_read_lane_surface[read_index, :, 0].mean()))
-
+        # db_sequence_run = SequenceRun.objects.create(
+        #     run_id = run_id if run_id else "",
+        #     folder = folder if folder else "",
+        #
+        # )
+        
