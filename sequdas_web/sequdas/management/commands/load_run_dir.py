@@ -5,7 +5,7 @@ import sys
 import logging
 from datetime import datetime
 import numpy
-import xmltodict
+import pandas as pd
 from interop import py_interop_run_metrics, py_interop_run, py_interop_summary
 from django.core.management.base import BaseCommand, CommandError
 
@@ -18,8 +18,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger = logging.getLogger(__name__)
         run_folder = os.path.abspath(options['run_dir'])
-        with open(os.path.abspath(options['run_dir'] + '/RunInfo.xml')) as fd:
-            run_info_xml = xmltodict.parse(fd.read())
         
         run_info = py_interop_run.info()
         run_metrics = py_interop_run_metrics.run_metrics()
@@ -37,11 +35,27 @@ class Command(BaseCommand):
         run_id = run_info.name()
         folder = os.path.abspath(options['run_dir'])
         
+        columns = (
+            ('Yield Total (Gbases)', 'yield_g'),
+            ('Projected Yield (Gbases)', 'projected_yield_g'),
+            ('%>Q3', 'percent_gt_q30'),
+            ('Error Rate', 'error_rate')
+        )
+
+        print("\n".join([method for method in dir(run_summary.total_summary()) if not method.startswith('_') and method not in ("this", "resize")]))
         
+        rows = [("Read %s%d"%("(I)" if run_summary.at(i).read().is_index()  else " ", run_summary.at(i).read().number()), run_summary.at(i).summary()) for i in range(run_summary.size())]
+
+        d = []
+        for label, func in columns:
+            d.append( (label, pd.Series([getattr(r[1], func)() for r in rows], index=[r[0] for r in rows])))
+
+        print(pd.DataFrame.from_items(d))
+        cluster_density = run_summary.at(1).at(0).density().mean()
         print("Date: " + str(date.isoformat()))
         print("Run Name: " + str(run_id))
         print("Lane Count: " + str(run_summary.lane_count()))
-        # print("Cluster Density: " + str(cluster_density))
+        print("Cluster Density: " + str(cluster_density))
         print("Summary Size: " + str(run_summary.size()))
         print("Summary Lane Count: " + str(run_summary.lane_count()))
         print("Summary Surface Count: " + str(run_summary.surface_count()))
