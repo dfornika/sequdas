@@ -5,7 +5,6 @@ import gql from 'graphql-tag';
 
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import moment from 'moment';
 
 import withAuth from './withAuth.jsx';
 import Nav from './Nav.jsx';
@@ -16,8 +15,7 @@ class SequenceRunTable extends Component {
     render() {
 	const allSequenceRuns = gql`{
             sequenceRuns {
-              runId 
-              runStartTime
+              runId
               clusterDensity 
               clustersPfPercent
               samples {
@@ -38,10 +36,6 @@ class SequenceRunTable extends Component {
 			  {
 			      Header: 'Run ID',
 			      accessor: 'runId'
-			  }, {
-			      id: 'runStartTime',
-			      Header: 'Start Time',
-			      accessor: (row) => moment(row.runStartTime).format("h:mm:ss a MMM DD, YYYY")
 			  }, {
 			      Header: 'Cluster Density',
 			      accessor: 'clusterDensity',
