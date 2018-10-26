@@ -4,6 +4,7 @@ import os
 import sys
 import logging
 from datetime import datetime
+from collections import OrderedDict
 import numpy
 import pandas as pd
 from interop import py_interop_run_metrics, py_interop_run, py_interop_summary
@@ -50,7 +51,7 @@ class Command(BaseCommand):
         for label, func in columns:
             d.append( (label, pd.Series([getattr(r[1], func)() for r in rows], index=[r[0] for r in rows])))
 
-        print(pd.DataFrame.from_items(d))
+        print(pd.DataFrame.from_dict(OrderedDict(d)))
         cluster_density = run_summary.at(1).at(0).density().mean()
         print("Date: " + str(date.isoformat()))
         print("Run Name: " + str(run_id))

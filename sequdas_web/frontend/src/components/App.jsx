@@ -8,7 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 
-import Login from './Login';
+import Login from './LoginIRIDA';
 import Header from './Header';
 import SequenceRunTable from './SequenceRunTable';
 import RunSampleChooserContainer from './RunSampleChooserContainer.jsx';

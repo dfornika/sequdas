@@ -1,11 +1,13 @@
 django==1.11
-psycopg2
+psycopg2-binary
 django-filter
 django-cors-headers
-graphene==2.0.1
-graphene-django
+graphene==2.1.0
+graphene-django==2.1.0
 djangorestframework
 djangorestframework-jwt
 pyjwt
 django-guardian
+interop==1.1.4
+pandas
 sample_sheet

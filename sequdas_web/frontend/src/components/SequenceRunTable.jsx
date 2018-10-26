@@ -16,8 +16,7 @@ class SequenceRunTable extends Component {
     render() {
 	const allSequenceRuns = gql`{
             sequenceRuns {
-              runId 
-              runStartTime
+              runId
               clusterDensity 
               clustersPfPercent
               samples {
